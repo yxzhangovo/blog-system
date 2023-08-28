@@ -10,32 +10,22 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/8/28
- * @description: 文章
+ * @description: 分类表
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("zyx_article")
-public class Article {
+@TableName("zyx_category")
+public class Category {
     private Long id;
 
-    private String title;
+    private String name;
 
-    private String content;
+    private Long pid;   // 父分类id: 若不存在则为-1
 
-    private String summary;
+    private String description;
 
-    private Long categoryId;
-
-    private String thumbnail;
-
-    private String isTop;   // 是否置顶: 0不置顶, 1置顶
-
-    private String status;  // 是否发布: 0草稿, 1已发布
-
-    private Long viewCount;
-
-    private String isComment;   //是否允许评论: 0否, 1是
+    private String status;  // 状态: 0禁用, 1正常
     
     private Long createBy;
     

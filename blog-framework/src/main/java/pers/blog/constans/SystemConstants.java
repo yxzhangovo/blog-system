@@ -7,7 +7,9 @@ package pers.blog.constans;
  */
 
 public class SystemConstants {
-    public static final int ARTICLE_STATUS_DRAFT = 0;   // 草稿
+    public static final int ARTICLE_STATUS_DRAFT = 0;   // 文章草稿
 
-    public static final int ARTICLE_STATUS_NORMAL = 1;  // 已发布
+    public static final int ARTICLE_STATUS_NORMAL = 1;  // 文章已发布
+
+    public static final String STATUS_NORMAL = "1";  // 正常分类
 }
