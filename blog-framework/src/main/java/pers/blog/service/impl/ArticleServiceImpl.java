@@ -3,13 +3,13 @@ package pers.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.Category;
+import pers.blog.domain.vo.ArticleDetailVo;
 import pers.blog.domain.vo.ArticleListVo;
 import pers.blog.domain.vo.HotArticleVo;
 import pers.blog.domain.vo.PageVo;
@@ -79,5 +79,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         PageVo pageVo = new PageVo(articleListVos, pageInfo.getTotal());
 
         return ResponseResult.okResult(pageVo);
+    }
+
+    /**
+     * 查询文章详情
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getArticleDetail(Long id) {
+        Article article = this.getById(id);
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
+        Category category = categoryService.getById(articleDetailVo.getCategoryId());
+        if (category != null) {
+            articleDetailVo.setCategoryName(category.getName());
+        }
+
+        return ResponseResult.okResult(articleDetailVo);
     }
 }
