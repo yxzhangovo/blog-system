@@ -37,7 +37,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult hotArticleList() {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_DRAFT); // 过滤已发布文章
+        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL); // 过滤已发布文章
         queryWrapper.orderByAsc(Article::getViewCount);
 
         Page<Article> articlePage = new Page<>(1, 10);
