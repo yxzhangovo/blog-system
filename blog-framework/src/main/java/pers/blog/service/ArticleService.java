@@ -11,4 +11,6 @@ import pers.blog.domain.entity.Article;
 public interface ArticleService extends IService<Article> {
     // 查询热门文章
     ResponseResult hotArticleList();
+    // 分页查询文章
+    ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId);
 }

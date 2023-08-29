@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author: zyx
- * @create: 2023/8/28
+ * @create: 2023/8/29
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HotArticleVo {
-    private Long id;
-    private String title;
-    private Long viewCount;
-
+public class PageVo {
+    private List rows;
+    private Long total;
 }

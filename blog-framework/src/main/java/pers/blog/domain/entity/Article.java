@@ -2,10 +2,12 @@ package pers.blog.domain.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * @author: zyx
@@ -24,6 +26,9 @@ public class Article {
     private String content;
 
     private String summary;
+
+    @TableField(exist = false)
+    private String categoryName;
 
     private Long categoryId;
 
