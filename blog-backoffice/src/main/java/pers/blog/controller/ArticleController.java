@@ -21,7 +21,7 @@ public class ArticleController {
     /**
      * 查询热门文章
      */
-    @GetMapping("/hotarticleList")
+    @GetMapping("/hotArticleList")
     public ResponseResult list() {
         return articleService.hotArticleList();
     }
