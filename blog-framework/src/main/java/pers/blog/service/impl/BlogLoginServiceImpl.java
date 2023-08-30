@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.LoginUser;
@@ -47,10 +48,26 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         String jwt = JwtUtils.createJWT(userId);
 
         // 将用户信息存入Redis
-        redisCache.setCacheObject("bloglogin" + userId, loginUser);
+        redisCache.setCacheObject("bloglogin:" + userId, loginUser);
 
         // 将Token和userInfo封装返回
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
         return ResponseResult.okResult(new BlogUserLoginVo(jwt, userInfoVo));
+    }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @Override
+    public ResponseResult logout() {
+        // 获取Token
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        // 获取userId
+        Long userId = loginUser.getUser().getId();
+        // 删除Redis中的用户信息
+        redisCache.deleteObject("bloglogin:" + userId);
+        return ResponseResult.okResult();
     }
 }
