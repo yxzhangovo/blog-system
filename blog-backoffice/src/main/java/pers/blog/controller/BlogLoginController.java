@@ -1,11 +1,14 @@
 package pers.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.User;
+import pers.blog.enums.AppHttpCodeEnum;
+import pers.blog.exception.SystemException;
 import pers.blog.service.BlogLoginService;
 
 /**
@@ -24,6 +27,9 @@ public class BlogLoginController {
      */
     @PostMapping("/login")
     public ResponseResult login(@RequestBody User user) {
+        if (!StringUtils.hasText(user.getUserName())) {
+            throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
+        }
         return blogLoginService.login(user);
     }
 

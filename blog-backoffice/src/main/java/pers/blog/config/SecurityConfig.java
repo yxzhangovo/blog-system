@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pers.blog.filter.JwtAuthenticationTokenFilter;
 
@@ -21,6 +23,12 @@ import pers.blog.filter.JwtAuthenticationTokenFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
+    AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,6 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().disable();
         // 添加自定义过滤器
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        // 配置异常处理器
+        http.exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
         //允许跨域
         http.cors();
     }
