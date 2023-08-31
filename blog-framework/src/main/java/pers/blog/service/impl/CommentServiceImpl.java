@@ -5,14 +5,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Comment;
 import pers.blog.domain.vo.CommentVo;
 import pers.blog.domain.vo.PageVo;
+import pers.blog.enums.AppHttpCodeEnum;
+import pers.blog.exception.SystemException;
 import pers.blog.mapper.CommentMapper;
 import pers.blog.service.CommentService;
 import pers.blog.service.UserService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.SecurityUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,5 +93,19 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }).collect(Collectors.toList());
 
         return commentVos;
+    }
+
+    /**
+     * 发表评论
+     * @param comment
+     * @return
+     */
+    @Override
+    public ResponseResult addComment(Comment comment) {
+        if (!StringUtils.hasText(comment.getContent())) {
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
+        this.save(comment);
+        return ResponseResult.okResult();
     }
 }
