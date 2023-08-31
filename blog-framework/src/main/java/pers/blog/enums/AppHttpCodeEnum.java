@@ -17,7 +17,11 @@ public enum AppHttpCodeEnum {
     LOGIN_ERROR(505,"用户名或密码错误"),
     CONTENT_NOT_NULL(506, "评论内容不能为空"),
     FILE_IS_NULL(507, "文件为空"),
-    FILE_TYPE_ERROR(508, "文件类型只能为PNG");
+    FILE_TYPE_ERROR(508, "文件类型只能为PNG"),
+    PASSWORD_NOT_NULL(509, "密码不能为空"),
+    NICKNAME_NOT_NULL(510, "昵称不能为空"),
+    EMAIL_NOT_NULL(510, "邮箱不能为空");
+
 
     int code;
     String msg;

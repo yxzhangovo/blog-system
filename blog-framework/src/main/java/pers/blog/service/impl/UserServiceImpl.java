@@ -1,10 +1,16 @@
 package pers.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.User;
 import pers.blog.domain.vo.UserInfoVo;
+import pers.blog.enums.AppHttpCodeEnum;
+import pers.blog.exception.SystemException;
 import pers.blog.mapper.UserMapper;
 import pers.blog.service.UserService;
 import pers.blog.utils.BeanCopyUtils;
@@ -16,6 +22,8 @@ import pers.blog.utils.SecurityUtils;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 获取用户信息
@@ -43,5 +51,49 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult updateUserInfo(User user) {
         this.updateById(user);
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 注册用户
+     * @param user
+     * @return
+     */
+    @Override
+    public ResponseResult register(User user) {
+        // 非空判断(后期改为Validation框架)
+        if (!StringUtils.hasText(user.getUserName())) {
+            throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
+        }
+        if (!StringUtils.hasText(user.getPassword())) {
+            throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
+        }
+        if (!StringUtils.hasText(user.getEmail())) {
+            throw new SystemException(AppHttpCodeEnum.EMAIL_EXIST);
+        }
+        if (!StringUtils.hasText(user.getUserName())) {
+            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+        }
+
+        // 是否重名判断
+        if (userNameExist(user.getUserName())) {
+            throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
+        }
+
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+        save(user);
+
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 验证用户名是否存在
+     * @param userName
+     * @return
+     */
+    private boolean userNameExist(String userName) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUserName, userName);
+        return this.count(queryWrapper) > 0;
     }
 }
