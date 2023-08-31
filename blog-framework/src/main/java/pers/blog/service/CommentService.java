@@ -11,7 +11,7 @@ import pers.blog.domain.entity.Comment;
  */
 public interface CommentService extends IService<Comment> {
     // 查询评论列表
-    ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize);
+    ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize);
     // 发表评论
     ResponseResult addComment(Comment comment);
 }

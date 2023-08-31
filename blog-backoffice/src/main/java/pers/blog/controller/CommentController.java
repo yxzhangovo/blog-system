@@ -2,6 +2,7 @@ package pers.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Comment;
 import pers.blog.service.CommentService;
@@ -25,7 +26,18 @@ public class CommentController {
      */
     @GetMapping("/commentList")
     public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize) {
-        return commentService.commentList(articleId, pageNum, pageSize);
+        return commentService.commentList(SystemConstants.ARTICLE_COMMENT, articleId, pageNum, pageSize);
+    }
+
+    /**
+     * 查询友链评论列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/linkCommentList")
+    public ResponseResult linkCommentList(Integer pageNum, Integer pageSize) {
+        return commentService.commentList(SystemConstants.LINK_COMMENT, null, pageNum, pageSize);
     }
 
     /**

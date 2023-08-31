@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Comment;
 import pers.blog.domain.vo.CommentVo;
@@ -16,7 +17,6 @@ import pers.blog.mapper.CommentMapper;
 import pers.blog.service.CommentService;
 import pers.blog.service.UserService;
 import pers.blog.utils.BeanCopyUtils;
-import pers.blog.utils.SecurityUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +32,23 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     /**
      * 查询评论列表
+     *
+     * @param commentType
      * @param articleId
      * @param pageNum
      * @param pageSize
      * @return
      */
     @Override
-    public ResponseResult commentList(Long articleId, Integer pageNum, Integer pageSize) {
+    public ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize) {
         // 查询对应文章的根评论
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(articleId != null, Comment::getArticleId, articleId);
+        queryWrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType), Comment::getArticleId, articleId);
         queryWrapper.eq(Comment::getRootId, -1);
+
+        // 评论类型
+        queryWrapper.eq(Comment::getType, commentType);
+
         queryWrapper.orderByAsc(Comment::getUpdateTime);
 
         // 分页查询
