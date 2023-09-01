@@ -51,5 +51,10 @@ public class Article {
     private Date updateTime;
 
     private Integer delFlag;    // 是否删除: 0未删除, 1已删除
+
+    public Article(Long id, Long viewCount) {
+        this.id = id;
+        this.viewCount = viewCount;
+    }
 }
 

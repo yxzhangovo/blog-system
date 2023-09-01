@@ -17,6 +17,7 @@ import pers.blog.mapper.ArticleMapper;
 import pers.blog.service.ArticleService;
 import pers.blog.service.CategoryService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.RedisCache;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,9 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 查询热门文章
@@ -68,7 +72,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<Article> articleList = articlePage.getRecords();
         articleList.stream().map(article -> {
-            Category category = categoryService.getById(categoryId);
+            Category category = categoryService.getById(article.getCategoryId());
             if (category != null) {
                 article.setCategoryName(category.getName());
             }
@@ -96,5 +100,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         return ResponseResult.okResult(articleDetailVo);
+    }
+
+    /**
+     * 更新浏览量
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult updateViewCount(Long id) {
+        // 更新redis中对应id的浏览量
+        redisCache.incrementCacheMapValue("article:viewCount", id.toString(), 1);
+        return ResponseResult.okResult();
     }
 }

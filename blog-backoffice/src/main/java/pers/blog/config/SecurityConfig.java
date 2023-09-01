@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
         http.logout().disable();
+        //允许跨域
+        http.cors();
         // 添加自定义过滤器
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 配置异常处理器
@@ -62,8 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(accessDeniedHandler);
         // 关闭默认的退出
         http.logout().disable();
-        //允许跨域
-        http.cors();
+
     }
 
     @Override
