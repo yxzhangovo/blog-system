@@ -24,7 +24,7 @@ public class UploadViewCountJob {
     @Autowired
     private ArticleService articleService;  // 实现了IService接口, IService接口中有很多批量操作的方法
 
-    @Scheduled(cron = "* 0/20 * * * ?")
+    @Scheduled(cron = "0 0/20 * * * ?")
     public void updateViewCount() {
         // 获取redis中的浏览量
         Map<String, Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");

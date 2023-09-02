@@ -12,7 +12,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 /**
  * @author: zyx
  * @create: 2023/9/2
- * @description: TODO
+ * @description: Swagger配置类
  */
 
 @Configuration
