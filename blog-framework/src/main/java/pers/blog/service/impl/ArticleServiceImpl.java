@@ -93,6 +93,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult getArticleDetail(Long id) {
         Article article = this.getById(id);
+
+        // 从Redis中获取文章详情
+        Integer viewCount = redisCache.getCacheMapValue("article:viewCount", id.toString());
+        article.setViewCount(viewCount.longValue());
+
         ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
         Category category = categoryService.getById(articleDetailVo.getCategoryId());
         if (category != null) {
