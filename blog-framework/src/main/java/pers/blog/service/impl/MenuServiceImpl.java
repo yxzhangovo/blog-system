@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.entity.Menu;
+import pers.blog.domain.vo.MenuVo;
 import pers.blog.mapper.MenuMapper;
 import pers.blog.service.MenuService;
 import pers.blog.service.RoleService;
+import pers.blog.utils.SecurityUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +32,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public List<String> selectPermsByUserId(Long id) {
         // 如果是管理员(id为1), 返回所有权限
-        if (id == 1L) {
+        if (SecurityUtils.isAdmin()) {
             LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.in(Menu::getMenuType, SystemConstants.MENU, SystemConstants.BUTTON);
             queryWrapper.eq(Menu::getStatus, SystemConstants.STATUS_NORMAL);
@@ -44,5 +46,55 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         // 否则返回对应权限
         return getBaseMapper().selectPermsByUserId(id);
+    }
+
+    /**
+     * 动态路由
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<MenuVo> selectRouterMenuTreeByUserId(Long userId) {
+        MenuMapper menuMapper = getBaseMapper();
+        List<MenuVo> menus = null;
+
+        // 判断是否为管理员, 是则返回所有符合要求的Menu
+        if (SecurityUtils.isAdmin()) {
+            menus = menuMapper.selectAllRouterMenu();
+        } else {
+            // 查询当前用户具有的Menu
+            menus = menuMapper.selectRouterMenuTreeByUserId(userId);
+        }
+
+        // 构建MenuTree格式
+
+        List<MenuVo> menuTree = builderMenuTree(menus, 0L);
+        return menuTree;
+    }
+
+    /**
+     * 子菜单查询
+     * @param menus
+     * @return
+     */
+    private List<MenuVo> builderMenuTree(List<MenuVo> menus, Long parentId) {
+        List<MenuVo> menuTree = menus.stream()
+                .filter(menu -> menu.getParentId().equals(parentId))
+                .map(menu -> menu.setChildren(getChildren(menu, menus)))
+                .collect(Collectors.toList());
+        return menuTree;
+    }
+
+    /**
+     * 获取传入参数的子Menu
+     * @param menu
+     * @param menus
+     * @return
+     */
+    private List<MenuVo> getChildren(MenuVo menu, List<MenuVo> menus) {
+        List<MenuVo> childrenList = menus.stream()
+                .filter(menuVo -> menuVo.getParentId().equals(menu.getId()))
+                .collect(Collectors.toList());
+        return childrenList;
     }
 }

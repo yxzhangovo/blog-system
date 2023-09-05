@@ -10,6 +10,8 @@ import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.LoginUser;
 import pers.blog.domain.entity.User;
 import pers.blog.domain.vo.AdminUserInfoVo;
+import pers.blog.domain.vo.MenuVo;
+import pers.blog.domain.vo.RoutersVo;
 import pers.blog.domain.vo.UserInfoVo;
 import pers.blog.enums.AppHttpCodeEnum;
 import pers.blog.exception.SystemException;
@@ -68,6 +70,20 @@ public class LoginController {
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
         AdminUserInfoVo adminUserInfo = new AdminUserInfoVo(perms, roleKeyList, userInfoVo);
         return ResponseResult.okResult(adminUserInfo);
+    }
+
+    /**
+     * 动态路由
+     * @return
+     */
+    @GetMapping("getRouters")
+    public ResponseResult<RoutersVo> getRouters() {
+        Long userId = SecurityUtils.getUserId();
+        // 查询Menu, 结果是tree的形式
+        List<MenuVo> menus = menuService.selectRouterMenuTreeByUserId(userId);
+
+        // 封装数据返回
+        return ResponseResult.okResult(new RoutersVo(menus));
 
     }
 }
