@@ -34,4 +34,14 @@ public class TagController {
     public ResponseResult addTag(@RequestBody TagListDto tagListDto) {
         return tagService.saveTag(tagListDto);
     }
+
+    /**
+     * 删除标签
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteTag(@PathVariable("id") String ids) {
+        return tagService.deleteTag(ids);
+    }
 }

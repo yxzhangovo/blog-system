@@ -53,4 +53,27 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         this.save(tag);
         return ResponseResult.okResult();
     }
+
+    /**
+     * 删除标签
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteTag(String ids) {
+        // 获取标签数组numbers
+        String[] parts = ids.split(",");
+        Long[] numbers = new Long[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            numbers[i] = Long.parseLong(parts[i]);
+        }
+
+        for (Long number : numbers) {
+            this.removeById(number);
+        }
+
+        return ResponseResult.okResult();
+    }
+
+
 }

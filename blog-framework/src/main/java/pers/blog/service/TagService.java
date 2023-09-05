@@ -15,4 +15,6 @@ public interface TagService extends IService<Tag> {
     ResponseResult pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
     // 新增标签
     ResponseResult saveTag(TagListDto tagListDto);
+    // 删除标签
+    ResponseResult deleteTag(String ids);
 }
