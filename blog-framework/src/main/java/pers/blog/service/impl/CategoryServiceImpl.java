@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.ListAllCategoryDto;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.Category;
 import pers.blog.domain.vo.CategoryVo;
@@ -51,5 +52,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // 封装
         List<CategoryVo> categoryVos = BeanCopyUtils.copyList(categories, CategoryVo.class);
         return ResponseResult.okResult(categoryVos);
+    }
+
+    /**
+     * 查询所有分类
+     * @return
+     */
+    @Override
+    public ResponseResult listAllCategory() {
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Category::getStatus, SystemConstants.STATUS_NORMAL);
+        List<Category> list = this.list(queryWrapper);
+        List<ListAllCategoryDto> listAllCategoryDtos = BeanCopyUtils.copyList(list, ListAllCategoryDto.class);
+        return ResponseResult.okResult(listAllCategoryDtos);
     }
 }

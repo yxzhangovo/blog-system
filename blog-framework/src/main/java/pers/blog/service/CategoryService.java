@@ -12,5 +12,7 @@ import pers.blog.domain.entity.Category;
 public interface CategoryService extends IService<Category> {
     // 查询分类列表
     ResponseResult getCategoryList();
+    // 查询所有分类接口
+    ResponseResult listAllCategory();
 
 }
