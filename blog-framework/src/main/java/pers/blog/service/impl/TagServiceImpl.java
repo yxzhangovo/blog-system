@@ -14,6 +14,8 @@ import pers.blog.mapper.TagMapper;
 import pers.blog.service.TagService;
 import pers.blog.utils.BeanCopyUtils;
 
+import java.util.List;
+
 /**
  * @author: zyx
  * @create: 2023/9/2
@@ -96,6 +98,17 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         Tag tag = BeanCopyUtils.copyBean(tagUpdateDto, Tag.class);
         updateById(tag);
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 查询所有标签
+     * @return
+     */
+    @Override
+    public ResponseResult listAllTag() {
+        List<Tag> list = this.list();
+        List<TagUpdateDto> tagUpdateDtos = BeanCopyUtils.copyList(list, TagUpdateDto.class);
+        return ResponseResult.okResult(tagUpdateDtos);
     }
 
 

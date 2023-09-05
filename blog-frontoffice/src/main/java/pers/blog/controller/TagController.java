@@ -65,4 +65,13 @@ public class TagController {
     public ResponseResult updateTag(@RequestBody TagUpdateDto tagUpdateDto) {
         return tagService.updateTag(tagUpdateDto);
     }
+
+    /**
+     * 查询所有标签
+     * @return
+     */
+    @GetMapping("/listAllTag")
+    public ResponseResult listAllTag() {
+        return tagService.listAllTag();
+    }
 }

@@ -22,4 +22,7 @@ public interface TagService extends IService<Tag> {
     ResponseResult findTag(Long id);
     // 更新标签
     ResponseResult updateTag(TagUpdateDto tagUpdateDto);
+    // 查询所有标签
+    ResponseResult listAllTag();
+
 }
