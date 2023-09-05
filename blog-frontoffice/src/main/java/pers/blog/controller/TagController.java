@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.TagListDto;
+import pers.blog.domain.dto.TagUpdateDto;
 import pers.blog.service.TagService;
 
 /**
@@ -43,5 +44,25 @@ public class TagController {
     @DeleteMapping("/{id}")
     public ResponseResult deleteTag(@PathVariable("id") String ids) {
         return tagService.deleteTag(ids);
+    }
+
+    /**
+     * 查询单个标签
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseResult findTag(@PathVariable Long id) {
+        return tagService.findTag(id);
+    }
+
+    /**
+     * 更新标签
+     * @param tagUpdateDto
+     * @return
+     */
+    @PutMapping
+    public ResponseResult updateTag(@RequestBody TagUpdateDto tagUpdateDto) {
+        return tagService.updateTag(tagUpdateDto);
     }
 }

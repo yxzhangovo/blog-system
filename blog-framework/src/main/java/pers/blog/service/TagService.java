@@ -3,6 +3,7 @@ package pers.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.TagListDto;
+import pers.blog.domain.dto.TagUpdateDto;
 import pers.blog.domain.entity.Tag;
 
 
@@ -17,4 +18,8 @@ public interface TagService extends IService<Tag> {
     ResponseResult saveTag(TagListDto tagListDto);
     // 删除标签
     ResponseResult deleteTag(String ids);
+    // 查询单个标签
+    ResponseResult findTag(Long id);
+    // 更新标签
+    ResponseResult updateTag(TagUpdateDto tagUpdateDto);
 }

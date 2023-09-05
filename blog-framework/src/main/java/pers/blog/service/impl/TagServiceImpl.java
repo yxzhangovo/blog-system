@@ -7,6 +7,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.TagListDto;
+import pers.blog.domain.dto.TagUpdateDto;
 import pers.blog.domain.entity.Tag;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.TagMapper;
@@ -72,6 +73,28 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
             this.removeById(number);
         }
 
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 查询单个标签
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult findTag(Long id) {
+        return ResponseResult.okResult(this.getById(id));
+    }
+
+    /**
+     * 更新标签
+     * @param tagUpdateDto
+     * @return
+     */
+    @Override
+    public ResponseResult updateTag(TagUpdateDto tagUpdateDto) {
+        Tag tag = BeanCopyUtils.copyBean(tagUpdateDto, Tag.class);
+        updateById(tag);
         return ResponseResult.okResult();
     }
 

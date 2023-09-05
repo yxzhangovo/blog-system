@@ -1,6 +1,5 @@
 package pers.blog.domain.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,12 +7,14 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/9/5
- * @description: 添加标签DTO
+ * @description: 更新标签DTO
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TagListDto {
+public class TagUpdateDto {
+    private Long id;
     private String name;
     private String remark;
 }

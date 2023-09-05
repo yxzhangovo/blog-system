@@ -20,7 +20,8 @@ public enum AppHttpCodeEnum {
     FILE_TYPE_ERROR(508, "文件类型只能为PNG"),
     PASSWORD_NOT_NULL(509, "密码不能为空"),
     NICKNAME_NOT_NULL(510, "昵称不能为空"),
-    EMAIL_NOT_NULL(510, "邮箱不能为空");
+    EMAIL_NOT_NULL(510, "邮箱不能为空"),
+    TAG_IS_NULL(511, "标签为空");
 
 
     int code;
