@@ -13,4 +13,6 @@ import pers.blog.domain.entity.Tag;
 public interface TagService extends IService<Tag> {
     // 查询标签列表
     ResponseResult pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto);
+    // 新增标签
+    ResponseResult saveTag(TagListDto tagListDto);
 }

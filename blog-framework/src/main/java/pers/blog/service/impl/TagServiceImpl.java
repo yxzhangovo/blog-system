@@ -11,6 +11,7 @@ import pers.blog.domain.entity.Tag;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.TagMapper;
 import pers.blog.service.TagService;
+import pers.blog.utils.BeanCopyUtils;
 
 /**
  * @author: zyx
@@ -39,5 +40,17 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         PageVo pageVo = new PageVo(tagPage.getRecords(), tagPage.getTotal());
 
         return ResponseResult.okResult(pageVo);
+    }
+
+    /**
+     * 新增标签
+     * @param tagListDto
+     * @return
+     */
+    @Override
+    public ResponseResult saveTag(TagListDto tagListDto) {
+        Tag tag = BeanCopyUtils.copyBean(tagListDto, Tag.class);
+        this.save(tag);
+        return ResponseResult.okResult();
     }
 }
