@@ -84,6 +84,14 @@ public class LoginController {
 
         // 封装数据返回
         return ResponseResult.okResult(new RoutersVo(menus));
+    }
 
+    /**
+     * 退出登录
+     * @return
+     */
+    @PostMapping("/user/logout")
+    public ResponseResult logout() {
+        return loginService.logout();
     }
 }

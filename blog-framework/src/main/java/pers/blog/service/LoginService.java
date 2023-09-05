@@ -10,4 +10,6 @@ import pers.blog.domain.entity.User;
 public interface LoginService {
     // 后台用户登录
     ResponseResult login(User user);
+    // 用户退出登录
+    ResponseResult logout();
 }

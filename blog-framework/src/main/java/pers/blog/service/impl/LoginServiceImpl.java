@@ -13,6 +13,7 @@ import pers.blog.exception.SystemException;
 import pers.blog.service.LoginService;
 import pers.blog.utils.JwtUtils;
 import pers.blog.utils.RedisCache;
+import pers.blog.utils.SecurityUtils;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -52,5 +53,16 @@ public class LoginServiceImpl implements LoginService {
         HashMap<String, String> map = new HashMap<>();
         map.put("token", jwt);
         return ResponseResult.okResult(map);
+    }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @Override
+    public ResponseResult logout() {
+        Long userId = SecurityUtils.getUserId();
+        redisCache.deleteObject("login" + userId);
+        return ResponseResult.okResult();
     }
 }
