@@ -22,4 +22,6 @@ public class SystemConstants {
     public static final String MENU = "C";  // 友链评论
 
     public static final String BUTTON = "F";  // 友链评论
+
+    public static final String ADMIN = "1"; // 身份为管理员
 }
