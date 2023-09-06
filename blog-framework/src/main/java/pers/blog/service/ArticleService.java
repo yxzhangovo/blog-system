@@ -3,6 +3,7 @@ package pers.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddArticleDto;
+import pers.blog.domain.dto.ArticleListDto;
 import pers.blog.domain.entity.Article;
 
 /**
@@ -20,4 +21,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult updateViewCount(Long id);
     // 写博文
     ResponseResult add(AddArticleDto articleDto);
+    // 后台查询所有文章
+    ResponseResult articleListBackend(Integer pageNum, Integer pageSize, String title, String summary);
 }

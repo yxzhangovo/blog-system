@@ -6,16 +6,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddArticleDto;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.ArticleTag;
 import pers.blog.domain.entity.Category;
-import pers.blog.domain.vo.ArticleDetailVo;
-import pers.blog.domain.vo.ArticleListVo;
-import pers.blog.domain.vo.HotArticleVo;
-import pers.blog.domain.vo.PageVo;
+import pers.blog.domain.vo.*;
 import pers.blog.mapper.ArticleMapper;
 import pers.blog.service.ArticleService;
 import pers.blog.service.ArticleTagService;
@@ -144,5 +142,29 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 后台查询所有文章
+     * @param pageNum
+     * @param pageSize
+     * @param title
+     * @param summary
+     * @return
+     */
+    @Override
+    public ResponseResult articleListBackend(Integer pageNum, Integer pageSize, String title, String summary) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(title), Article::getTitle, title);
+        queryWrapper.like(StringUtils.hasText(summary), Article::getSummary, summary);
+
+        Page<Article> articlePage = new Page<>(pageNum, pageSize);
+        this.page(articlePage, queryWrapper);
+
+        List<Article> articleList = articlePage.getRecords();
+        List<ArticleListBackendVo> articleListBackendVos = BeanCopyUtils.copyList(articleList, ArticleListBackendVo.class);
+        PageVo pageVo = new PageVo(articleListBackendVos, articlePage.getTotal());
+
+        return ResponseResult.okResult(pageVo);
     }
 }
