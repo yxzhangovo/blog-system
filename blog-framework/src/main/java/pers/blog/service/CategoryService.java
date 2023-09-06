@@ -2,8 +2,10 @@ package pers.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.ListAllCategoryDto;
 import pers.blog.domain.entity.Category;
 
+import java.util.List;
 
 /**
  * @author: zyx
@@ -13,6 +15,6 @@ public interface CategoryService extends IService<Category> {
     // 查询分类列表
     ResponseResult getCategoryList();
     // 查询所有分类接口
-    ResponseResult listAllCategory();
+    List<ListAllCategoryDto> listAllCategory();
 
 }
