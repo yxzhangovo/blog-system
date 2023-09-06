@@ -13,6 +13,7 @@ import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.TagMapper;
 import pers.blog.service.TagService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.ImplUtils;
 
 import java.util.List;
 
@@ -64,17 +65,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
      */
     @Override
     public ResponseResult deleteTag(String ids) {
-        // 获取标签数组numbers
-        String[] parts = ids.split(",");
-        Long[] numbers = new Long[parts.length];
-        for (int i = 0; i < parts.length; i++) {
-            numbers[i] = Long.parseLong(parts[i]);
-        }
+        Long[] longs = ImplUtils.removeByIds(ids);
 
-        for (Long number : numbers) {
-            this.removeById(number);
+        for (Long id : longs) {
+            this.removeById(id);
         }
-
         return ResponseResult.okResult();
     }
 

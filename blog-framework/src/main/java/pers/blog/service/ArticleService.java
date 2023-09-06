@@ -28,4 +28,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult getArticleInfo(Long id);
     // 后台更新文章
     ResponseResult updateArticle(ArticleUpdateInfoVo articleUpdateInfoVo);
+    // 后台删除文章
+    ResponseResult deleteArticle(String ids);
 }

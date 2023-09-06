@@ -59,4 +59,14 @@ public class ArticleController {
     public ResponseResult updateArticle(@RequestBody ArticleUpdateInfoVo articleUpdateInfoVo) {
         return articleService.updateArticle(articleUpdateInfoVo);
     }
+
+    /**
+     * 后台删除文章
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteArticle(@PathVariable("id") String ids) {
+        return articleService.deleteArticle(ids);
+    }
 }

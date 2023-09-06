@@ -20,6 +20,7 @@ import pers.blog.service.ArticleTagService;
 import pers.blog.service.CategoryService;
 import pers.blog.service.TagService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.ImplUtils;
 import pers.blog.utils.RedisCache;
 
 import java.util.List;
@@ -220,6 +221,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .collect(Collectors.toList());
 
         articleTagService.saveBatch(articleTags);
+
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 删除文章
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteArticle(String ids) {
+        Long[] longs = ImplUtils.removeByIds(ids);
+
+        for (Long id : longs) {
+            this.removeById(id);
+        }
 
         return ResponseResult.okResult();
     }
