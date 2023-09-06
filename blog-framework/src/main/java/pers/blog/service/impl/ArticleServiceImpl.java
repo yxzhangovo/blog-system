@@ -18,6 +18,7 @@ import pers.blog.mapper.ArticleMapper;
 import pers.blog.service.ArticleService;
 import pers.blog.service.ArticleTagService;
 import pers.blog.service.CategoryService;
+import pers.blog.service.TagService;
 import pers.blog.utils.BeanCopyUtils;
 import pers.blog.utils.RedisCache;
 
@@ -39,6 +40,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private TagService tagService;
 
     /**
      * 查询热门文章
@@ -166,5 +170,57 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         PageVo pageVo = new PageVo(articleListBackendVos, articlePage.getTotal());
 
         return ResponseResult.okResult(pageVo);
+    }
+
+    /**
+     * 后台查询文章内容
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getArticleInfo(Long id) {
+        // 查询Article
+        Article article = this.getById(id);
+
+        // 查询Article对应的TagId
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId, id);
+        List<ArticleTag> articleTags = articleTagService.list(queryWrapper);
+
+        List<Long> tags = articleTags.stream()
+                .map(ArticleTag::getTagId)
+                .collect(Collectors.toList());
+
+        ArticleUpdateInfoVo vo = BeanCopyUtils.copyBean(article, ArticleUpdateInfoVo.class);
+        vo.setTags(tags);
+
+        return ResponseResult.okResult(vo);
+    }
+
+    /**
+     * 更新文章
+     * @param vo
+     * @return
+     */
+    @Override
+    @Transactional
+    public ResponseResult updateArticle(ArticleUpdateInfoVo vo) {
+        // 更新Article表
+        Article article = BeanCopyUtils.copyBean(vo, Article.class);
+        this.updateById(article);
+
+        // 删除ArticleTags表数据
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId, vo.getId());
+        articleTagService.remove(queryWrapper);
+
+        // 添加ArticleTags表数据
+        List<ArticleTag> articleTags = vo.getTags().stream()
+                .map(tag -> new ArticleTag(vo.getId(), tag))
+                .collect(Collectors.toList());
+
+        articleTagService.saveBatch(articleTags);
+
+        return ResponseResult.okResult();
     }
 }

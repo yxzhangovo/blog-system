@@ -5,6 +5,7 @@ import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddArticleDto;
 import pers.blog.domain.dto.ArticleListDto;
 import pers.blog.domain.entity.Article;
+import pers.blog.domain.vo.ArticleUpdateInfoVo;
 
 /**
  * @author: zyx
@@ -23,4 +24,8 @@ public interface ArticleService extends IService<Article> {
     ResponseResult add(AddArticleDto articleDto);
     // 后台查询所有文章
     ResponseResult articleListBackend(Integer pageNum, Integer pageSize, String title, String summary);
+    // 后台查询文章内容
+    ResponseResult getArticleInfo(Long id);
+    // 后台更新文章
+    ResponseResult updateArticle(ArticleUpdateInfoVo articleUpdateInfoVo);
 }
