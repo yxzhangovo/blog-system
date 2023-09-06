@@ -4,12 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
+import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Menu;
+import pers.blog.domain.vo.GetAllMenusVo;
 import pers.blog.domain.vo.MenuVo;
 import pers.blog.mapper.MenuMapper;
 import pers.blog.service.MenuService;
 import pers.blog.service.RoleService;
+import pers.blog.utils.BeanCopyUtils;
 import pers.blog.utils.SecurityUtils;
 
 import java.util.List;
@@ -96,5 +100,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .filter(menuVo -> menuVo.getParentId().equals(menu.getId()))
                 .collect(Collectors.toList());
         return childrenList;
+    }
+
+    /**
+     * 查询菜单列表
+     * @param status
+     * @param menuName
+     * @return
+     */
+    @Override
+    public ResponseResult getAllMenus(String status, String menuName) {
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(menuName), Menu::getMenuName, menuName);
+        queryWrapper.eq(StringUtils.hasText(status), Menu::getStatus, status);
+        queryWrapper.orderByAsc(Menu::getParentId).orderByAsc(Menu::getOrderNum);
+        List<Menu> menuList = this.list(queryWrapper);
+        List<GetAllMenusVo> menusVos = BeanCopyUtils.copyList(menuList, GetAllMenusVo.class);
+
+        return ResponseResult.okResult(menusVos);
     }
 }

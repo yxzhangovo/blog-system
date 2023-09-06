@@ -1,6 +1,7 @@
 package pers.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Menu;
 import pers.blog.domain.vo.MenuVo;
 
@@ -16,4 +17,6 @@ public interface MenuService extends IService<Menu> {
     List<String> selectPermsByUserId(Long id);
     // 动态路由
     List<MenuVo> selectRouterMenuTreeByUserId(Long userId);
+    // 查询菜单列表
+    ResponseResult getAllMenus(String status, String menuName);
 }
