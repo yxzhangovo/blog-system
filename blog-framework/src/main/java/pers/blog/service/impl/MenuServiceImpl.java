@@ -9,7 +9,10 @@ import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Menu;
 import pers.blog.domain.vo.GetAllMenusVo;
+import pers.blog.domain.vo.GetMenuInfoVo;
 import pers.blog.domain.vo.MenuVo;
+import pers.blog.enums.AppHttpCodeEnum;
+import pers.blog.exception.SystemException;
 import pers.blog.mapper.MenuMapper;
 import pers.blog.service.MenuService;
 import pers.blog.service.RoleService;
@@ -118,5 +121,34 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<GetAllMenusVo> menusVos = BeanCopyUtils.copyList(menuList, GetAllMenusVo.class);
 
         return ResponseResult.okResult(menusVos);
+    }
+
+    /**
+     * 获取菜单信息
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getMenuInfo(Long id) {
+        Menu menu = this.getById(id);
+        GetMenuInfoVo menuVo = BeanCopyUtils.copyBean(menu, GetMenuInfoVo.class);
+        return ResponseResult.okResult(menuVo);
+    }
+
+    /**
+     * 更新菜单信息
+     * @param menu
+     * @return
+     */
+    @Override
+    public ResponseResult updateMenu(Menu menu) {
+        Long parentId = menu.getParentId();
+        Long id = menu.getId();
+        if (menu.getId().compareTo(menu.getParentId()) == 0) {
+            throw new SystemException(AppHttpCodeEnum.PARENT_ERROR);
+        } else {
+            this.updateById(menu);
+        }
+        return ResponseResult.okResult();
     }
 }

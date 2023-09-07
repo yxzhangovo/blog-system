@@ -21,7 +21,8 @@ public enum AppHttpCodeEnum {
     PASSWORD_NOT_NULL(509, "密码不能为空"),
     NICKNAME_NOT_NULL(510, "昵称不能为空"),
     EMAIL_NOT_NULL(510, "邮箱不能为空"),
-    TAG_IS_NULL(511, "标签为空");
+    TAG_IS_NULL(511, "标签为空"),
+    PARENT_ERROR(512, "上级菜单不能是自己" );
 
 
     int code;

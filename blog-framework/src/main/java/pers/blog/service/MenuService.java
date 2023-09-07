@@ -19,4 +19,8 @@ public interface MenuService extends IService<Menu> {
     List<MenuVo> selectRouterMenuTreeByUserId(Long userId);
     // 查询菜单列表
     ResponseResult getAllMenus(String status, String menuName);
+    // 获取菜单信息
+    ResponseResult getMenuInfo(Long id);
+    // 更新菜单信息
+    ResponseResult updateMenu(Menu menu);
 }

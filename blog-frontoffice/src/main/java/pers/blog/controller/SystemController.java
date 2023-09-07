@@ -36,6 +36,25 @@ public class SystemController {
     public ResponseResult addMenu(@RequestBody Menu menu) {
         menuService.save(menu);
         return ResponseResult.okResult();
+    }
 
+    /**
+     * 根据id查询菜单信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/menu/{id}")
+    public ResponseResult getMenuInfo(@PathVariable Long id) {
+        return menuService.getMenuInfo(id);
+    }
+
+    /**
+     * 更新菜单信息
+     * @param menu
+     * @return
+     */
+    @PutMapping("/menu")
+    public ResponseResult updateMenu(@RequestBody Menu menu) {
+        return menuService.updateMenu(menu);
     }
 }
