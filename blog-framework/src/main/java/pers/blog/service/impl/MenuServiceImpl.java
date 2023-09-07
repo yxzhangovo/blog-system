@@ -151,4 +151,26 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         }
         return ResponseResult.okResult();
     }
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @return
+     */
+    @Override
+    public ResponseResult deleteMenu(Long menuId) {
+        // 查询所有parentId, 查看是否有当前id的?
+        List<Long> parentIds = this.list().stream()
+                .map(Menu::getParentId)
+                .collect(Collectors.toList());
+
+        for (Long parentId : parentIds) {
+            if (parentId.compareTo(menuId) == 0) {
+                throw new SystemException(AppHttpCodeEnum.HAVE_CHILDREN);
+            }
+        }
+
+        this.removeById(menuId);
+        return ResponseResult.okResult();
+    }
 }

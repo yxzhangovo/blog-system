@@ -22,7 +22,8 @@ public enum AppHttpCodeEnum {
     NICKNAME_NOT_NULL(510, "昵称不能为空"),
     EMAIL_NOT_NULL(510, "邮箱不能为空"),
     TAG_IS_NULL(511, "标签为空"),
-    PARENT_ERROR(512, "上级菜单不能是自己" );
+    PARENT_ERROR(512, "上级菜单不能是自己" ),
+    HAVE_CHILDREN(513, "存在子标签无法删除");
 
 
     int code;

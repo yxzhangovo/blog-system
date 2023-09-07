@@ -57,4 +57,14 @@ public class SystemController {
     public ResponseResult updateMenu(@RequestBody Menu menu) {
         return menuService.updateMenu(menu);
     }
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @return
+     */
+    @DeleteMapping("/menu/{menuId}")
+    public ResponseResult deleteMenu(@PathVariable Long menuId) {
+        return menuService.deleteMenu(menuId);
+    }
 }
