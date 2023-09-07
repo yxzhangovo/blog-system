@@ -1,8 +1,13 @@
 package pers.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Role;
+import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.RoleMapper;
 import pers.blog.service.RoleService;
 
@@ -32,5 +37,27 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         // 查询用户所具有的权限信息
         return getBaseMapper().selectRoleKeyByUserId(id);
+    }
+
+    /**
+     * 查询角色列表
+     * @param pageNum
+     * @param pageSize
+     * @param roleName
+     * @param status
+     * @return
+     */
+    @Override
+    public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status) {
+        Page<Role> rolePage = new Page<>(pageNum, pageSize);
+        LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(roleName), Role::getRoleName, roleName);
+        queryWrapper.eq(StringUtils.hasText(status), Role::getStatus, status);
+        queryWrapper.orderByAsc(Role::getRoleSort);
+        this.page(rolePage, queryWrapper);
+
+
+        PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
+        return ResponseResult.okResult(pageVo);
     }
 }
