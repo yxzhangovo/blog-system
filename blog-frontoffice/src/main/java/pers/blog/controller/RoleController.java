@@ -1,10 +1,9 @@
 package pers.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.ChangeStatusDto;
 import pers.blog.service.RoleService;
 
 /**
@@ -28,5 +27,15 @@ public class RoleController {
     @GetMapping("/list")
     public ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status) {
         return roleService.listRole(pageNum, pageSize, roleName, status);
+    }
+
+    /**
+     * 修改角色状态
+     * @param statusInfo
+     * @return
+     */
+    @PutMapping("/changeStatus")
+    public ResponseResult changeStatus(@RequestBody ChangeStatusDto statusInfo) {
+        return roleService.changeStatus(statusInfo);
     }
 }
