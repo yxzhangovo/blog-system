@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddUserDto;
+import pers.blog.domain.dto.UpdateUserDto;
 import pers.blog.service.UserService;
 
 @RestController
@@ -45,4 +46,25 @@ public class UserController {
     public ResponseResult deleteUser(@PathVariable("id") String ids) {
         return userService.deleteUsers(ids);
     }
+
+    /**
+     * 查询对应用户信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseResult getUserInfo(@PathVariable Long id) {
+        return userService.getUserInfo(id);
+    }
+
+    /**
+     * 更新用户
+     * @param userDto
+     * @return
+     */
+    @PutMapping
+    public ResponseResult updateUser(@RequestBody UpdateUserDto userDto) {
+        return userService.updateUser(userDto);
+    }
+
 }

@@ -7,22 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddUserDto;
+import pers.blog.domain.dto.UpdateUserDto;
+import pers.blog.domain.entity.Role;
 import pers.blog.domain.entity.User;
 import pers.blog.domain.entity.UserRole;
+import pers.blog.domain.vo.GetUserInfoVo;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.domain.vo.UserInfoVo;
 import pers.blog.enums.AppHttpCodeEnum;
 import pers.blog.exception.SystemException;
 import pers.blog.mapper.UserMapper;
+import pers.blog.service.RoleService;
 import pers.blog.service.UserRoleService;
 import pers.blog.service.UserService;
 import pers.blog.utils.BeanCopyUtils;
 import pers.blog.utils.ImplUtils;
 import pers.blog.utils.SecurityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +42,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 获取用户信息
@@ -158,6 +167,65 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         for (Long id : list) {
             this.removeById(id);
         }
+
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 查询用户信息
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getUserInfo(Long id) {
+        // 根据userId查询UserRole
+        LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserRole::getUserId, id);
+        List<UserRole> userRoles = userRoleService.list(queryWrapper);
+
+        // 获取roleIds
+        List<Long> roleIds = new ArrayList<>();
+        for (UserRole userRole : userRoles) {
+            roleIds.add(userRole.getRoleId());
+        }
+
+        // 查询roles
+        List<Role> roles = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            roles.add(roleService.getById(roleId));
+        }
+
+        User user = this.getById(id);
+
+        GetUserInfoVo userInfoVo = new GetUserInfoVo(roleIds, roles, user);
+        return ResponseResult.okResult(userInfoVo);
+    }
+
+    /**
+     * 后台更新用户信息
+     * @param userDto
+     * @return
+     */
+    @Override
+    @Transactional
+    public ResponseResult updateUser(UpdateUserDto userDto) {
+        // 更新用户信息
+        User user = BeanCopyUtils.copyBean(userDto, User.class);
+        this.updateById(user);
+
+        // 先删除原本的id
+        LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserRole::getUserId, userDto.getId());
+        userRoleService.remove(queryWrapper);
+
+        // 添加id
+        List<Long> roleIds = userDto.getRoleIds();
+        List<UserRole> userRoles = new ArrayList<>();
+        for (Long roleId : roleIds) {
+            userRoles.add(new UserRole(userDto.getId(), roleId));
+        }
+        userRoleService.saveBatch(userRoles);
+
 
         return ResponseResult.okResult();
     }
