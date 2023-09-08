@@ -20,6 +20,7 @@ import pers.blog.mapper.UserMapper;
 import pers.blog.service.UserRoleService;
 import pers.blog.service.UserService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.ImplUtils;
 import pers.blog.utils.SecurityUtils;
 
 import java.util.List;
@@ -141,6 +142,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<Long> roleIds = userDto.getRoleIds();
         for (Long roleId : roleIds) {
             userRoleService.save(new UserRole(user.getId(), roleId));
+        }
+
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 删除用户
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteUsers(String ids) {
+        Long[] list = ImplUtils.removeByIds(ids);
+        for (Long id : list) {
+            this.removeById(id);
         }
 
         return ResponseResult.okResult();

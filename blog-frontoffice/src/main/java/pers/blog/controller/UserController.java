@@ -35,4 +35,14 @@ public class UserController {
     public ResponseResult addUser(@RequestBody AddUserDto userDto) {
         return userService.addUser(userDto);
     }
+
+    /**
+     * 删除用户
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteUser(@PathVariable("id") String ids) {
+        return userService.deleteUsers(ids);
+    }
 }

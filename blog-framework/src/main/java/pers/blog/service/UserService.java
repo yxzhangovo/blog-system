@@ -21,4 +21,6 @@ public interface UserService extends IService<User> {
     ResponseResult getUserList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
     // 添加用户
     ResponseResult addUser(AddUserDto userDto);
+    // 删除用户
+    ResponseResult deleteUsers(String ids);
 }
