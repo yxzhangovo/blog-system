@@ -16,4 +16,6 @@ public interface UserService extends IService<User> {
     ResponseResult updateUserInfo(User user);
     // 用户注册
     ResponseResult register(User user);
+    // 获取用户列表
+    ResponseResult getUserList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
 }

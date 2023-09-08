@@ -1,6 +1,7 @@
 package pers.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.User;
+import pers.blog.domain.vo.PageVo;
 import pers.blog.domain.vo.UserInfoVo;
 import pers.blog.enums.AppHttpCodeEnum;
 import pers.blog.exception.SystemException;
@@ -84,6 +86,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         save(user);
 
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 获取用户列表
+     * @param pageNum
+     * @param pageSize
+     * @param userName
+     * @param phonenumber
+     * @param status
+     * @return
+     */
+    @Override
+    public ResponseResult getUserList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(userName), User::getUserName, userName);
+        queryWrapper.like(StringUtils.hasText(phonenumber), User::getPhonenumber, phonenumber);
+        queryWrapper.eq(StringUtils.hasText(status), User::getStatus, status);
+        Page<User> userPage = new Page<>(pageNum, pageSize);
+
+        this.page(userPage, queryWrapper);
+
+        PageVo pageVo = new PageVo(userPage.getRecords(), userPage.getTotal());
+
+        return ResponseResult.okResult(pageVo);
     }
 
     /**
