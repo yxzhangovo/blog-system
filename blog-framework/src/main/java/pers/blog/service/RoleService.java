@@ -19,4 +19,6 @@ public interface RoleService extends IService<Role> {
     ResponseResult listRole(Integer pageNum, Integer pageSize, String roleName, String status);
     // 修改角色状态
     ResponseResult changeStatus(ChangeStatusDto statusInfo);
+    // 删除角色
+    ResponseResult deleteRoles(String ids);
 }

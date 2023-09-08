@@ -38,4 +38,14 @@ public class RoleController {
     public ResponseResult changeStatus(@RequestBody ChangeStatusDto statusInfo) {
         return roleService.changeStatus(statusInfo);
     }
+
+    /**
+     * 删除角色
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteRole(@PathVariable("id") String ids) {
+        return roleService.deleteRoles(ids);
+    }
 }

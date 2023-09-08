@@ -11,6 +11,7 @@ import pers.blog.domain.entity.Role;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.RoleMapper;
 import pers.blog.service.RoleService;
+import pers.blog.utils.ImplUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Role role = this.getById(statusInfo.getRoleId());
         role.setStatus(statusInfo.getStatus());
         this.updateById(role);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 删除角色
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteRoles(String ids) {
+        Long[] list = ImplUtils.removeByIds(ids);
+        for (Long id : list) {
+            this.removeById(id);
+        }
         return ResponseResult.okResult();
     }
 }
