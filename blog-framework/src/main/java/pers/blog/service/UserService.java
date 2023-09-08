@@ -2,6 +2,7 @@ package pers.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddUserDto;
 import pers.blog.domain.entity.User;
 
 
@@ -18,4 +19,6 @@ public interface UserService extends IService<User> {
     ResponseResult register(User user);
     // 获取用户列表
     ResponseResult getUserList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status);
+    // 添加用户
+    ResponseResult addUser(AddUserDto userDto);
 }

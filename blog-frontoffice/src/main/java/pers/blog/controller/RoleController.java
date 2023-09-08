@@ -1,5 +1,6 @@
 package pers.blog.controller;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
@@ -47,5 +48,14 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseResult deleteRole(@PathVariable("id") String ids) {
         return roleService.deleteRoles(ids);
+    }
+
+    /**
+     * 查询所有状态正常的角色
+     * @return
+     */
+    @GetMapping("/listAllRole")
+    public ResponseResult listAllRole() {
+        return roleService.listAllRole();
     }
 }

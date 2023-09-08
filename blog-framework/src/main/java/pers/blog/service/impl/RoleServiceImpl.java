@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.ChangeStatusDto;
 import pers.blog.domain.entity.Role;
@@ -88,5 +89,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             this.removeById(id);
         }
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 查询所有状态为正常的角色
+     * @return
+     */
+    @Override
+    public ResponseResult listAllRole() {
+        LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Role::getStatus, 0);
+        List<Role> list = this.list(queryWrapper);
+        return ResponseResult.okResult(list);
     }
 }

@@ -1,10 +1,9 @@
 package pers.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddUserDto;
 import pers.blog.service.UserService;
 
 @RestController
@@ -25,5 +24,15 @@ public class UserController {
     @GetMapping("/list")
     public ResponseResult getUserList(Integer pageNum, Integer pageSize, String userName, String phonenumber, String status) {
         return userService.getUserList(pageNum, pageSize, userName, phonenumber, status);
+    }
+
+    /**
+     * 添加用户
+     * @param userDto
+     * @return
+     */
+    @PostMapping
+    public ResponseResult addUser(@RequestBody AddUserDto userDto) {
+        return userService.addUser(userDto);
     }
 }

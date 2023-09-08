@@ -21,4 +21,6 @@ public interface RoleService extends IService<Role> {
     ResponseResult changeStatus(ChangeStatusDto statusInfo);
     // 删除角色
     ResponseResult deleteRoles(String ids);
+    // 查询所有状态为正常的角色
+    ResponseResult listAllRole();
 }
