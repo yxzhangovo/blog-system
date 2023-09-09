@@ -1,15 +1,19 @@
 package pers.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.ListAllCategoryDto;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.Category;
 import pers.blog.domain.vo.CategoryVo;
+import pers.blog.domain.vo.PageCategoryVo;
+import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.CategoryMapper;
 import pers.blog.service.ArticleService;
 import pers.blog.service.CategoryService;
@@ -65,5 +69,28 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> list = this.list(queryWrapper);
         List<ListAllCategoryDto> listAllCategoryDtos = BeanCopyUtils.copyList(list, ListAllCategoryDto.class);
         return listAllCategoryDtos;
+    }
+
+    /**
+     * 分页查询分类列表
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @param status
+     * @return
+     */
+    @Override
+    public ResponseResult pageCategory(Integer pageNum, Integer pageSize, String name, String status) {
+        LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(name), Category::getName, name);
+        queryWrapper.eq(StringUtils.hasText(status), Category::getStatus, status);
+        Page<Category> categoryPage = new Page<>(pageNum, pageSize);
+        this.page(categoryPage, queryWrapper);
+
+        List<PageCategoryVo> pageCategoryVos = BeanCopyUtils.copyList(categoryPage.getRecords(), PageCategoryVo.class);
+        PageVo pageVo = new PageVo(pageCategoryVos, categoryPage.getTotal());
+
+        return ResponseResult.okResult(pageVo);
+
     }
 }

@@ -16,5 +16,6 @@ public interface CategoryService extends IService<Category> {
     ResponseResult getCategoryList();
     // 查询所有分类接口
     List<ListAllCategoryDto> listAllCategory();
-
+    // 分页查询分类列表
+    ResponseResult pageCategory(Integer pageNum, Integer pageSize, String name, String status);
 }

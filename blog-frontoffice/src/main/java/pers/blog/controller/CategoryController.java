@@ -64,4 +64,18 @@ public class CategoryController {
             WebUtils.renderString(response, JSON.toJSONString(result));
         }
     }
+
+    /**
+     * 分页查询分类列表
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @param status
+     * @return
+     */
+    @GetMapping("/list")
+    public ResponseResult list(Integer pageNum, Integer pageSize, String name, String status) {
+        return categoryService.pageCategory(pageNum, pageSize, name, status);
+    }
+
 }
