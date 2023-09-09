@@ -4,15 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddCategoryDto;
 import pers.blog.domain.dto.ListAllCategoryDto;
+import pers.blog.domain.dto.UpdateCategoryDto;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.Category;
 import pers.blog.domain.vo.CategoryVo;
+import pers.blog.domain.vo.GetCategoryInfo;
 import pers.blog.domain.vo.PageCategoryVo;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.CategoryMapper;
@@ -104,6 +107,30 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public ResponseResult addCategory(AddCategoryDto categoryDto) {
         Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
         this.save(category);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 获取分类信息
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getCategoryInfo(Long id) {
+        Category category = this.getById(id);
+        GetCategoryInfo categoryInfo = BeanCopyUtils.copyBean(category, GetCategoryInfo.class);
+        return ResponseResult.okResult(categoryInfo);
+    }
+
+    /**
+     * 更新分类
+     * @param categoryDto
+     * @return
+     */
+    @Override
+    public ResponseResult updateCategory(UpdateCategoryDto categoryDto) {
+        Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
+        this.updateById(category);
         return ResponseResult.okResult();
     }
 }

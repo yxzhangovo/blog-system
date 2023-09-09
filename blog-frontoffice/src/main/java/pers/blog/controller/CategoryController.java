@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
 
 import pers.blog.domain.dto.AddCategoryDto;
+import pers.blog.domain.dto.UpdateCategoryDto;
 import pers.blog.domain.entity.Category;
 import pers.blog.domain.vo.EasyExcelVo;
 import pers.blog.enums.AppHttpCodeEnum;
@@ -87,4 +88,23 @@ public class CategoryController {
         return categoryService.addCategory(categoryDto);
     }
 
+    /**
+     * 查询分类信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseResult getCategoryInfo(@PathVariable Long id) {
+        return categoryService.getCategoryInfo(id);
+    }
+
+    /**
+     * 更新分类
+     * @param categoryDto
+     * @return
+     */
+    @PutMapping
+    public ResponseResult updateCategory(@RequestBody UpdateCategoryDto categoryDto) {
+        return categoryService.updateCategory(categoryDto);
+    }
 }

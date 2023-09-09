@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddCategoryDto;
 import pers.blog.domain.dto.ListAllCategoryDto;
+import pers.blog.domain.dto.UpdateCategoryDto;
 import pers.blog.domain.entity.Category;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface CategoryService extends IService<Category> {
     ResponseResult pageCategory(Integer pageNum, Integer pageSize, String name, String status);
     // 新增分类
     ResponseResult addCategory(AddCategoryDto categoryDto);
+    // 获取分类信息
+    ResponseResult getCategoryInfo(Long id);
+    // 更新分类
+    ResponseResult updateCategory(UpdateCategoryDto categoryDto);
 }
