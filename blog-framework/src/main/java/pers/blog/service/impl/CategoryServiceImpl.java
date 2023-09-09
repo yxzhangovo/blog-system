@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddCategoryDto;
 import pers.blog.domain.dto.ListAllCategoryDto;
 import pers.blog.domain.entity.Article;
 import pers.blog.domain.entity.Category;
@@ -92,5 +93,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
         return ResponseResult.okResult(pageVo);
 
+    }
+
+    /**
+     * 新增分类
+     * @param categoryDto
+     * @return
+     */
+    @Override
+    public ResponseResult addCategory(AddCategoryDto categoryDto) {
+        Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
+        this.save(category);
+        return ResponseResult.okResult();
     }
 }

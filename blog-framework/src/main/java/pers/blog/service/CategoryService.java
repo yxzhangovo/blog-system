@@ -2,6 +2,7 @@ package pers.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddCategoryDto;
 import pers.blog.domain.dto.ListAllCategoryDto;
 import pers.blog.domain.entity.Category;
 
@@ -18,4 +19,6 @@ public interface CategoryService extends IService<Category> {
     List<ListAllCategoryDto> listAllCategory();
     // 分页查询分类列表
     ResponseResult pageCategory(Integer pageNum, Integer pageSize, String name, String status);
+    // 新增分类
+    ResponseResult addCategory(AddCategoryDto categoryDto);
 }
