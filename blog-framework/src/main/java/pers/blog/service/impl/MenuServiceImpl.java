@@ -10,6 +10,7 @@ import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Menu;
 import pers.blog.domain.vo.GetAllMenusVo;
 import pers.blog.domain.vo.GetMenuInfoVo;
+import pers.blog.domain.vo.MenuTreeVo;
 import pers.blog.domain.vo.MenuVo;
 import pers.blog.enums.AppHttpCodeEnum;
 import pers.blog.exception.SystemException;
@@ -172,5 +173,32 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         this.removeById(menuId);
         return ResponseResult.okResult();
+    }
+
+    /**
+     * 获取菜单树
+     * @return
+     */
+    @Override
+    public ResponseResult getTreeSelect() {
+        List<MenuTreeVo> menus = getBaseMapper().getMenuTree();
+        List<MenuTreeVo> menuTreeVos = builderMenuTree1(menus, 0L);
+        return ResponseResult.okResult(menuTreeVos);
+    }
+
+    private List<MenuTreeVo> builderMenuTree1(List<MenuTreeVo> menuTreeVos,Long parentId){
+        List<MenuTreeVo> menuTreeVos1 = menuTreeVos.stream()
+                .filter(menuTree -> menuTree.getParentId().equals(parentId))
+                .map(menuTree -> menuTree.setChildren(getChildren1(menuTree, menuTreeVos)))
+                .collect(Collectors.toList());
+        return menuTreeVos1;
+    }
+
+    private List<MenuTreeVo> getChildren1(MenuTreeVo menuTreeVo, List<MenuTreeVo> menuTreeVos) {
+        List<MenuTreeVo> childrenList = menuTreeVos.stream()
+                .filter(m -> m.getParentId().equals(menuTreeVo.getId()))
+                .map(m->m.setChildren(getChildren1(m,menuTreeVos)))
+                .collect(Collectors.toList());
+        return childrenList;
     }
 }

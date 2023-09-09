@@ -11,8 +11,8 @@ import pers.blog.service.MenuService;
  * @create: 2023/9/6
  */
 @RestController
-@RequestMapping("/system")
-public class SystemController {
+@RequestMapping("/system/menu")
+public class MenuController {
     @Autowired
     private MenuService menuService;
 
@@ -22,7 +22,7 @@ public class SystemController {
      * @param menuName
      * @return
      */
-    @GetMapping("/menu/list")
+    @GetMapping("/list")
     public ResponseResult getAllMenus(String status, String menuName) {
         return menuService.getAllMenus(status, menuName);
     }
@@ -32,7 +32,7 @@ public class SystemController {
      * @param menu
      * @return
      */
-    @PostMapping("/menu")
+    @PostMapping
     public ResponseResult addMenu(@RequestBody Menu menu) {
         menuService.save(menu);
         return ResponseResult.okResult();
@@ -43,7 +43,7 @@ public class SystemController {
      * @param id
      * @return
      */
-    @GetMapping("/menu/{id}")
+    @GetMapping("/{id}")
     public ResponseResult getMenuInfo(@PathVariable Long id) {
         return menuService.getMenuInfo(id);
     }
@@ -53,7 +53,7 @@ public class SystemController {
      * @param menu
      * @return
      */
-    @PutMapping("/menu")
+    @PutMapping
     public ResponseResult updateMenu(@RequestBody Menu menu) {
         return menuService.updateMenu(menu);
     }
@@ -63,8 +63,17 @@ public class SystemController {
      * @param menuId
      * @return
      */
-    @DeleteMapping("/menu/{menuId}")
+    @DeleteMapping("/{menuId}")
     public ResponseResult deleteMenu(@PathVariable Long menuId) {
         return menuService.deleteMenu(menuId);
+    }
+
+    /**
+     * 获取菜单树
+     * @return
+     */
+    @GetMapping("/treeselect")
+    public ResponseResult getTreeSelect() {
+        return menuService.getTreeSelect();
     }
 }

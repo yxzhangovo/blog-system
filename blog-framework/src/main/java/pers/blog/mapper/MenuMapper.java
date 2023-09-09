@@ -3,6 +3,7 @@ package pers.blog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import pers.blog.domain.entity.Menu;
+import pers.blog.domain.vo.MenuTreeVo;
 import pers.blog.domain.vo.MenuVo;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
     List<MenuVo> selectAllRouterMenu();
 
     List<MenuVo> selectRouterMenuTreeByUserId(Long userId);
+    // 获取菜单树
+    List<MenuTreeVo> getMenuTree();
 }
