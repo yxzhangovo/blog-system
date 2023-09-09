@@ -8,8 +8,10 @@ import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddLinkDto;
+import pers.blog.domain.dto.UpdateLinkDto;
 import pers.blog.domain.entity.Link;
 import pers.blog.domain.vo.GetAllLinkVo;
+import pers.blog.domain.vo.GetLinkInfoVo;
 import pers.blog.domain.vo.PageLinkVo;
 import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.LinkMapper;
@@ -74,4 +76,30 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
 
         return ResponseResult.okResult();
     }
+
+    /**
+     * 获取友链信息
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getLinkInfo(Long id) {
+        Link link = this.getById(id);
+        GetLinkInfoVo linkInfoVo = BeanCopyUtils.copyBean(link, GetLinkInfoVo.class);
+        return ResponseResult.okResult(linkInfoVo);
+    }
+
+    /**
+     * 更新友链
+     * @param linkDto
+     * @return
+     */
+    @Override
+    public ResponseResult updateLink(UpdateLinkDto linkDto) {
+        Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
+        this.updateById(link);
+
+        return ResponseResult.okResult();
+    }
+
 }

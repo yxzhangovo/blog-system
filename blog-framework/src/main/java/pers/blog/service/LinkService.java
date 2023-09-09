@@ -3,6 +3,7 @@ package pers.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddLinkDto;
+import pers.blog.domain.dto.UpdateLinkDto;
 import pers.blog.domain.entity.Link;
 
 
@@ -17,4 +18,8 @@ public interface LinkService extends IService<Link> {
     ResponseResult pageLink(Integer pageNum, Integer pageSize, String name, String status);
     // 添加友链
     ResponseResult addLink(AddLinkDto linkDto);
+    // 获取友链信息
+    ResponseResult getLinkInfo(Long id);
+    // 更新友链
+    ResponseResult updateLink(UpdateLinkDto linkDto);
 }
