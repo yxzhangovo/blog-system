@@ -56,4 +56,13 @@ public class ListController {
         return linkService.updateLink(linkDto);
     }
 
+    /**
+     * 删除友链
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("{id}")
+    public ResponseResult deleteLink(@PathVariable("id") String ids) {
+        return linkService.deleteLink(ids);
+    }
 }

@@ -22,4 +22,6 @@ public interface LinkService extends IService<Link> {
     ResponseResult getLinkInfo(Long id);
     // 更新友链
     ResponseResult updateLink(UpdateLinkDto linkDto);
+    // 删除友链
+    ResponseResult deleteLink(String ids);
 }

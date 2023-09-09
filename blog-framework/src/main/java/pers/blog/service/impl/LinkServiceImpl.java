@@ -17,6 +17,7 @@ import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.LinkMapper;
 import pers.blog.service.LinkService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.ImplUtils;
 
 import java.util.List;
 
@@ -102,4 +103,18 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         return ResponseResult.okResult();
     }
 
+    /**
+     * 删除友链
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteLink(String ids) {
+        Long[] removed = ImplUtils.removeByIds(ids);
+        for (Long id : removed) {
+            this.removeById(id);
+        }
+
+        return ResponseResult.okResult();
+    }
 }
