@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddLinkDto;
 import pers.blog.domain.entity.Link;
 import pers.blog.domain.vo.GetAllLinkVo;
 import pers.blog.domain.vo.PageLinkVo;
@@ -59,5 +60,18 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         PageVo pageVo = new PageVo(pageLinkVos, linkPage.getTotal());
 
         return ResponseResult.okResult(pageVo);
+    }
+
+    /**
+     * 添加友链
+     * @param linkDto
+     * @return
+     */
+    @Override
+    public ResponseResult addLink(AddLinkDto linkDto) {
+        Link link = BeanCopyUtils.copyBean(linkDto, Link.class);
+        this.save(link);
+
+        return ResponseResult.okResult();
     }
 }

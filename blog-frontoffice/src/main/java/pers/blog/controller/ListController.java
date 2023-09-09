@@ -1,10 +1,9 @@
 package pers.blog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddLinkDto;
 import pers.blog.service.LinkService;
 
 @RestController
@@ -22,7 +21,17 @@ public class ListController {
      * @return
      */
     @GetMapping("/list")
-    public ResponseResult pageList(Integer pageNum, Integer pageSize, String name, String status) {
+    public ResponseResult pageLink(Integer pageNum, Integer pageSize, String name, String status) {
         return linkService.pageLink(pageNum, pageSize, name, status);
+    }
+
+    /**
+     * 添加友链
+     * @param linkDto
+     * @return
+     */
+    @PostMapping
+    public ResponseResult addLink(@RequestBody AddLinkDto linkDto) {
+        return linkService.addLink(linkDto);
     }
 }
