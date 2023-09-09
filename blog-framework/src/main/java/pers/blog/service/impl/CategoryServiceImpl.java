@@ -22,6 +22,7 @@ import pers.blog.mapper.CategoryMapper;
 import pers.blog.service.ArticleService;
 import pers.blog.service.CategoryService;
 import pers.blog.utils.BeanCopyUtils;
+import pers.blog.utils.ImplUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -131,6 +132,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public ResponseResult updateCategory(UpdateCategoryDto categoryDto) {
         Category category = BeanCopyUtils.copyBean(categoryDto, Category.class);
         this.updateById(category);
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 删除分类
+     * @param ids
+     * @return
+     */
+    @Override
+    public ResponseResult deleteCategories(String ids) {
+        Long[] removed = ImplUtils.removeByIds(ids);
+        for (Long id : removed) {
+            this.removeById(id);
+        }
+
         return ResponseResult.okResult();
     }
 }

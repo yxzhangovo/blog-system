@@ -107,4 +107,14 @@ public class CategoryController {
     public ResponseResult updateCategory(@RequestBody UpdateCategoryDto categoryDto) {
         return categoryService.updateCategory(categoryDto);
     }
+
+    /**
+     * 删除分类
+     * @param ids
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseResult deleteCategory(@PathVariable("id") String ids) {
+        return categoryService.deleteCategories(ids);
+    }
 }
