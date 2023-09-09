@@ -1,12 +1,16 @@
 package pers.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Link;
 import pers.blog.domain.vo.GetAllLinkVo;
+import pers.blog.domain.vo.PageLinkVo;
+import pers.blog.domain.vo.PageVo;
 import pers.blog.mapper.LinkMapper;
 import pers.blog.service.LinkService;
 import pers.blog.utils.BeanCopyUtils;
@@ -33,5 +37,27 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
         List<GetAllLinkVo> getAllLinkVos = BeanCopyUtils.copyList(linkList, GetAllLinkVo.class);
 
         return ResponseResult.okResult(getAllLinkVos);
+    }
+
+    /**
+     * 分页查询友链
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @param status
+     * @return
+     */
+    @Override
+    public ResponseResult pageLink(Integer pageNum, Integer pageSize, String name, String status) {
+        LambdaQueryWrapper<Link> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.hasText(name), Link::getName, name);
+        queryWrapper.eq(StringUtils.hasText(status), Link::getStatus, status);
+        Page<Link> linkPage = new Page<>(pageNum, pageSize);
+        this.page(linkPage, queryWrapper);
+
+        List<PageLinkVo> pageLinkVos = BeanCopyUtils.copyList(linkPage.getRecords(), PageLinkVo.class);
+        PageVo pageVo = new PageVo(pageLinkVos, linkPage.getTotal());
+
+        return ResponseResult.okResult(pageVo);
     }
 }

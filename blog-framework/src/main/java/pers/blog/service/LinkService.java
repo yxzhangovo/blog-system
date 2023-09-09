@@ -12,4 +12,6 @@ import pers.blog.domain.entity.Link;
 public interface LinkService extends IService<Link> {
     // 友链查询
     ResponseResult getAllLink();
+    // 分页查询友链
+    ResponseResult pageLink(Integer pageNum, Integer pageSize, String name, String status);
 }
