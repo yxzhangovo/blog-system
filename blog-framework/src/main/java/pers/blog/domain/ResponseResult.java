@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * @author: zyx
  * @create: 2023/8/28
- * @description: 统一响应类
+ * @description: 统一响应
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
  public class ResponseResult<T> implements Serializable {

@@ -36,7 +36,7 @@ public class User {
 
     private String phonenumber;
 
-    private String sex; // 性别: 0男, 1女
+    private String sex; // 性别: 0男, 1女, 2未知
 
     private String avatar;
 

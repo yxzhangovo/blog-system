@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/8/28
- * @description: 评论表
+ * @description: 评论
  */
 @Data
 @NoArgsConstructor

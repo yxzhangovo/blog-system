@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/9/6
- * @description: 文章标签关联表
+ * @description: 文章标签关联
  */
 @Data
 @NoArgsConstructor

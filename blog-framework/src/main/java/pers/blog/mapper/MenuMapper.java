@@ -19,7 +19,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
     List<String> selectPermsByUserId(Long id);
     // 动态路由(管理员)
     List<MenuVo> selectAllRouterMenu();
-
+    // 根据id查询权限
     List<MenuVo> selectRouterMenuTreeByUserId(Long userId);
     // 获取菜单树
     List<MenuTreeVo> getMenuTree();

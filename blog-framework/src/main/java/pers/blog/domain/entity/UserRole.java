@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/9/8
- * @description: 用户角色关联表
+ * @description: 用户角色关联
  */
 @Data
 @AllArgsConstructor

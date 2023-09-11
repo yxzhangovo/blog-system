@@ -17,13 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author: zyx
  * @create: 2023/8/31
- * @description: 切面类
+ * @description: 配置切面
  */
 @Component
 @Aspect
 @Slf4j
 public class LogAspect {
-    // 确定切点
+    // 切点
     @Pointcut("@annotation(pers.blog.annotation.SystemLog)")
     public void pt() {
 

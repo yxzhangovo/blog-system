@@ -8,10 +8,11 @@
     <artifactId>blog-system</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>blog-framework</module>
-        <module>blog-backoffice</module>
-        <module>blog-frontoffice</module>
+        <module>blog-user</module>
+        <module>blog-admin</module>
     </modules>
 
     <properties>
@@ -96,6 +97,12 @@
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.4</version> <!-- 请根据您的项目需要选择适当的版本 -->
             </plugin>
         </plugins>
     </build>

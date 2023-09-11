@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author: zyx
  * @create: 2023/8/28
- * @description: 分类表
+ * @description: 分类
  */
 @Data
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class Category {
 
     private String description;
 
-    private String status;  // 状态: 0禁用, 1正常
+    private String status;  // 状态: 0正常, 1禁用
 
     @TableField(fill = FieldFill.INSERT)
     private Long createBy;

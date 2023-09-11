@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.LoginUserDto;
 import pers.blog.domain.entity.LoginUser;
 import pers.blog.domain.entity.User;
 import pers.blog.enums.AppHttpCodeEnum;
@@ -36,8 +37,8 @@ public class LoginServiceImpl implements LoginService {
      * @return
      */
     @Override
-    public ResponseResult login(User user) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+    public ResponseResult login(LoginUserDto user) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
         if (Objects.isNull(authenticate)) {

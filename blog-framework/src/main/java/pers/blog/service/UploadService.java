@@ -8,5 +8,6 @@ import pers.blog.domain.ResponseResult;
  * @create: 2023/8/31
  */
 public interface UploadService {
+    // 头像上传
     ResponseResult uploadImage(MultipartFile img);
 }

@@ -37,7 +37,7 @@ public class Article {
 
     private String isTop;   // 是否置顶: 0不置顶, 1置顶
 
-    private String status;  // 是否发布: 0草稿, 1已发布
+    private String status;  // 是否发布: 0已发布, 1草稿
 
     private Long viewCount;
 

@@ -1,6 +1,8 @@
 package pers.blog.service;
 
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.LoginUserDto;
+import pers.blog.domain.entity.LoginUser;
 import pers.blog.domain.entity.User;
 
 /**
@@ -9,7 +11,7 @@ import pers.blog.domain.entity.User;
  */
 public interface LoginService {
     // 后台用户登录
-    ResponseResult login(User user);
+    ResponseResult login(LoginUserDto user);
     // 用户退出登录
     ResponseResult logout();
 }

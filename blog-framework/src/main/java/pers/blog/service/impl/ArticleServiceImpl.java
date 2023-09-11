@@ -42,9 +42,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private RedisCache redisCache;
 
-    @Autowired
-    private TagService tagService;
-
     /**
      * 查询热门文章
      */
