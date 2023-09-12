@@ -3,6 +3,7 @@ package pers.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddLinkDto;
+import pers.blog.domain.dto.ChangeLinkStatusDto;
 import pers.blog.domain.dto.UpdateLinkDto;
 import pers.blog.domain.entity.Link;
 
@@ -24,4 +25,6 @@ public interface LinkService extends IService<Link> {
     ResponseResult updateLink(UpdateLinkDto linkDto);
     // 删除友链
     ResponseResult deleteLink(String ids);
+    // 裁定友链状态
+    ResponseResult changeLinkStatus(ChangeLinkStatusDto linkStatusDto);
 }

@@ -8,18 +8,18 @@ import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.entity.Menu;
-import pers.blog.domain.vo.GetAllMenusVo;
-import pers.blog.domain.vo.GetMenuInfoVo;
-import pers.blog.domain.vo.MenuTreeVo;
-import pers.blog.domain.vo.MenuVo;
+import pers.blog.domain.entity.RoleMenu;
+import pers.blog.domain.vo.*;
 import pers.blog.enums.AppHttpCodeEnum;
 import pers.blog.exception.SystemException;
 import pers.blog.mapper.MenuMapper;
 import pers.blog.service.MenuService;
+import pers.blog.service.RoleMenuService;
 import pers.blog.service.RoleService;
 import pers.blog.utils.BeanCopyUtils;
 import pers.blog.utils.SecurityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +31,9 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private RoleMenuService roleMenuService;
 
     /**
      * 根据用户id查询对应权限关键字
@@ -184,6 +187,29 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<MenuTreeVo> menus = getBaseMapper().getMenuTree();
         List<MenuTreeVo> menuTreeVos = builderMenuTree1(menus, 0L);
         return ResponseResult.okResult(menuTreeVos);
+    }
+
+    /**
+     * 根据角色id获取对应的菜单
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseResult getRoleMenuTree(Long id) {
+        GetMenuTreeVo menuTreeByIdVo = new GetMenuTreeVo();
+        List<MenuTreeVo> menus = getBaseMapper().getMenuTree();
+        List<MenuTreeVo> menuTreeVos = builderMenuTree1(menus, 0L);
+        menuTreeByIdVo.setMenus(menuTreeVos);
+
+        LambdaQueryWrapper<RoleMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(RoleMenu::getRoleId, id);
+        List<Long> checkedKeys = new ArrayList<>();
+        List<RoleMenu> roleMenus = roleMenuService.list(queryWrapper);
+        for (RoleMenu roleMenu : roleMenus) {
+            checkedKeys.add(roleMenu.getMenuId());
+        }
+        menuTreeByIdVo.setCheckedKeys(checkedKeys);
+        return ResponseResult.okResult(menuTreeByIdVo);
     }
 
     private List<MenuTreeVo> builderMenuTree1(List<MenuTreeVo> menuTreeVos,Long parentId){

@@ -13,7 +13,7 @@ import pers.blog.service.ArticleService;
  * @author: zyx
  * @create: 2023/8/28
  */
-@Api(tags = "文章", description = "后台文章相关接口")
+@Api(tags = "文章", description = "文章相关接口")
 @RestController
 @RequestMapping("/article")
 public class ArticleController {

@@ -91,4 +91,15 @@ public class MenuController {
     public ResponseResult getTreeSelect() {
         return menuService.getTreeSelect();
     }
+
+    /**
+     * 根据角色id获取对应的菜单
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据角色id获取对应的菜单")
+    @GetMapping("/roleMenuTreeSelect/{id}")
+    public ResponseResult getRoleMenuTreeSelect(@PathVariable Long id) {
+        return menuService.getRoleMenuTree(id);
+    }
 }

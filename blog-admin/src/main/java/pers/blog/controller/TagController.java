@@ -33,8 +33,8 @@ public class TagController {
             @ApiImplicitParam(name = "tagListDto",value = "可选, 模糊查询标签名和备注"),
     })
     @GetMapping("/list")
-    public ResponseResult list(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
-        return tagService.pageTagList(pageNum, pageSize, tagListDto);
+    public ResponseResult list(Integer pageNum, Integer pageSize, String name, String remark) {
+        return tagService.pageTagList(pageNum, pageSize, name, remark);
     }
 
     /**

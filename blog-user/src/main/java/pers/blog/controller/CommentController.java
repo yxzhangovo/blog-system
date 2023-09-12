@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddCommentDto;
 import pers.blog.domain.entity.Comment;
 import pers.blog.service.CommentService;
 
@@ -58,12 +59,12 @@ public class CommentController {
 
     /**
      * 发表评论
-     * @param comment
+     * @param commentDto
      * @return
      */
     @ApiOperation(value = "发表评论")
-    @PostMapping
-    public ResponseResult addComment(@RequestBody Comment comment) {
-        return commentService.addComment(comment);
+    @PostMapping("/addComment")
+    public ResponseResult addComment(@RequestBody AddCommentDto commentDto) {
+        return commentService.addComment(commentDto);
     }
 }

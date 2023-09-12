@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddLinkDto;
+import pers.blog.domain.dto.ChangeLinkStatusDto;
 import pers.blog.domain.dto.UpdateLinkDto;
 import pers.blog.domain.entity.Link;
 import pers.blog.domain.vo.GetAllLinkVo;
@@ -115,6 +116,19 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper, Link> implements Li
             this.removeById(id);
         }
 
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 裁定友链状态
+     * @param linkStatusDto
+     * @return
+     */
+    @Override
+    public ResponseResult changeLinkStatus(ChangeLinkStatusDto linkStatusDto) {
+        Link link = getById(linkStatusDto.getId());
+        link.setStatus(linkStatusDto.getStatus());
+        updateById(link);
         return ResponseResult.okResult();
     }
 }

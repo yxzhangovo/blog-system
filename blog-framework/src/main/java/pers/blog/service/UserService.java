@@ -3,6 +3,7 @@ package pers.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddUserDto;
+import pers.blog.domain.dto.ChangeUserStatusDto;
 import pers.blog.domain.dto.UpdateUserDto;
 import pers.blog.domain.entity.User;
 
@@ -28,4 +29,7 @@ public interface UserService extends IService<User> {
     ResponseResult getUserInfo(Long id);
     // 后台更新用户信息
     ResponseResult updateUser(UpdateUserDto userDto);
+    // 更新角色状态
+    ResponseResult changeUserStatus(ChangeUserStatusDto userStatusDto);
+
 }

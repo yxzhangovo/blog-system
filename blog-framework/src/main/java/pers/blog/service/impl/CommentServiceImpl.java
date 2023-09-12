@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pers.blog.constans.SystemConstants;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddCommentDto;
 import pers.blog.domain.entity.Comment;
 import pers.blog.domain.vo.CommentVo;
 import pers.blog.domain.vo.PageVo;
@@ -101,16 +102,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return commentVos;
     }
 
+
     /**
      * 发表评论
-     * @param comment
+     * @param commentDto
      * @return
      */
     @Override
-    public ResponseResult addComment(Comment comment) {
-        if (!StringUtils.hasText(comment.getContent())) {
+    public ResponseResult addComment(AddCommentDto commentDto) {
+        if (!StringUtils.hasText(commentDto.getContent())) {
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         }
+        Comment comment = BeanCopyUtils.copyBean(commentDto, Comment.class);
         this.save(comment);
         return ResponseResult.okResult();
     }

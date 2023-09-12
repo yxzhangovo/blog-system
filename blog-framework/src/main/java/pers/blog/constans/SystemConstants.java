@@ -13,7 +13,7 @@ public class SystemConstants {
 
     public static final String STATUS_NORMAL = "0";  // 正常分类
 
-    public static final String  LINK_STATUS_NORMAL = "1";   // 友链已审核
+    public static final String  LINK_STATUS_NORMAL = "0";   // 友链已审核
 
     public static final String ARTICLE_COMMENT = "0"; // 文章评论
 

@@ -13,6 +13,7 @@ public class UpdateUserDto {
     private Long id;
     private String userName;
     private String nickName;
+    private String phonenumber;
     private String status;  // 账号状态: 0正常, 1停用
     private String email;
     private String sex; // 性别: 0男, 1女

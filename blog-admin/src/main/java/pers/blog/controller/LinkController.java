@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddLinkDto;
+import pers.blog.domain.dto.ChangeLinkStatusDto;
 import pers.blog.domain.dto.UpdateLinkDto;
 import pers.blog.service.LinkService;
 
@@ -83,5 +84,11 @@ public class LinkController {
     @DeleteMapping("{id}")
     public ResponseResult deleteLink(@PathVariable("id") String ids) {
         return linkService.deleteLink(ids);
+    }
+
+    @ApiOperation(value = "决定友链状态")
+    @PutMapping("/changeLinkStatus")
+    public ResponseResult changeLinkStatus(@RequestBody ChangeLinkStatusDto linkStatusDto){
+        return linkService.changeLinkStatus(linkStatusDto);
     }
 }

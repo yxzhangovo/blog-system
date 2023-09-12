@@ -27,4 +27,6 @@ public interface MenuService extends IService<Menu> {
     ResponseResult deleteMenu(Long menuId);
     // 获取菜单树
     ResponseResult getTreeSelect();
+    // 根据角色id获取对应的菜单
+    ResponseResult getRoleMenuTree(Long id);
 }

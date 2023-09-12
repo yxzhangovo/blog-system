@@ -27,16 +27,15 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
      * 查询标签列表
      * @param pageNum
      * @param pageSize
-     * @param tagListDto
+     * @param name
+     * @param remark
      * @return
      */
     @Override
-    public ResponseResult pageTagList(Integer pageNum, Integer pageSize, TagListDto tagListDto) {
-        String name = tagListDto.getName();
-        String remark = tagListDto.getRemark();
+    public ResponseResult pageTagList(Integer pageNum, Integer pageSize, String name, String remark) {
         LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Strings.isNotEmpty(name), Tag::getName, name);
-        queryWrapper.eq(Strings.isNotEmpty(remark), Tag::getRemark, remark);
+        queryWrapper.like(Strings.isNotEmpty(name), Tag::getName, name);
+        queryWrapper.like(Strings.isNotEmpty(remark), Tag::getRemark, remark);
 
         Page<Tag> tagPage = new Page<>(pageNum, pageSize);
         this.page(tagPage,queryWrapper);

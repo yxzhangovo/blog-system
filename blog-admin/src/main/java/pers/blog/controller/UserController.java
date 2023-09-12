@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddUserDto;
+import pers.blog.domain.dto.ChangeUserStatusDto;
 import pers.blog.domain.dto.UpdateUserDto;
 import pers.blog.service.UserService;
 
@@ -85,6 +86,12 @@ public class UserController {
     @PutMapping
     public ResponseResult updateUser(@RequestBody UpdateUserDto userDto) {
         return userService.updateUser(userDto);
+    }
+
+    @ApiOperation(value = "更新状态")
+    @PutMapping("/changeStatus")
+    public ResponseResult changeUserStatus(@RequestBody ChangeUserStatusDto userStatusDto) {
+        return userService.changeUserStatus(userStatusDto);
     }
 
 }

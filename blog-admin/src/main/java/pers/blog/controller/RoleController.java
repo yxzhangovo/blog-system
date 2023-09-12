@@ -4,11 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddRoleDto;
 import pers.blog.domain.dto.ChangeStatusDto;
+import pers.blog.domain.dto.UpdateRoleDto;
 import pers.blog.service.RoleService;
 
 /**
@@ -42,6 +43,12 @@ public class RoleController {
         return roleService.listRole(pageNum, pageSize, roleName, status);
     }
 
+    @ApiOperation(value = "添加角色")
+    @PostMapping
+    public ResponseResult addRole(@RequestBody AddRoleDto roleDto) {
+        return roleService.addRole(roleDto);
+    }
+
     /**
      * 修改角色状态
      * @param statusInfo
@@ -51,6 +58,29 @@ public class RoleController {
     @PutMapping("/changeStatus")
     public ResponseResult changeStatus(@RequestBody ChangeStatusDto statusInfo) {
         return roleService.changeStatus(statusInfo);
+    }
+
+    /**
+     * 根据id查询角色信息
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "根据id查询角色信息")
+    @GetMapping("/{id}")
+    public ResponseResult getRoleInfo(@PathVariable Long id) {
+        return roleService.getRoleInfo(id);
+
+    }
+
+    /**
+     * 更新角色信息
+     * @param roleDto
+     * @return
+     */
+    @ApiOperation(value = "更新角色信息")
+    @PutMapping
+    public ResponseResult updateRole(@RequestBody UpdateRoleDto roleDto) {
+        return roleService.updateRole(roleDto);
     }
 
     /**
@@ -76,4 +106,6 @@ public class RoleController {
     public ResponseResult listAllRole() {
         return roleService.listAllRole();
     }
+
+
 }

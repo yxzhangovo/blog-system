@@ -2,6 +2,7 @@ package pers.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.blog.domain.ResponseResult;
+import pers.blog.domain.dto.AddCommentDto;
 import pers.blog.domain.entity.Comment;
 
 
@@ -13,5 +14,5 @@ public interface CommentService extends IService<Comment> {
     // 查询评论列表
     ResponseResult commentList(String commentType, Long articleId, Integer pageNum, Integer pageSize);
     // 发表评论
-    ResponseResult addComment(Comment comment);
+    ResponseResult addComment(AddCommentDto commentDto);
 }

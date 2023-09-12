@@ -51,7 +51,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL); // 过滤已发布文章
         queryWrapper.orderByAsc(Article::getViewCount);
 
-        Page<Article> articlePage = new Page<>(1, 10);
+        Page<Article> articlePage = new Page<>(1, 5);
         page(articlePage, queryWrapper);
 
         List<Article> articleList = articlePage.getRecords();

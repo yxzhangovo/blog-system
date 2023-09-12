@@ -60,7 +60,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         Contact contact = new Contact("zyx", "https://github.com/zyx0316/blog-system", "yxzhang0316@outlook.com");
         return new ApiInfoBuilder()
-                .title("Project Api")
+                .title("个人博客接口文档")
                 .description("后台页面测试接口, 所有页面均需要登录\n" +
                         "登录: 后台登录/user/login登录后, 将token粘贴在Authorize中")
                 .contact(contact)   // 联系方式

@@ -29,7 +29,7 @@ public class BlogLoginController {
      * @return
      */
     @ApiOperation(value = "登录")
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseResult login(@RequestBody User user) {
         if (!StringUtils.hasText(user.getUserName())) {
             throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
@@ -42,7 +42,7 @@ public class BlogLoginController {
      * @return
      */
     @ApiOperation(value = "退出登录")
-    @PostMapping("/logout")
+    @PostMapping("/user/logout")
     public ResponseResult logout() {
         return blogLoginService.logout();
     }

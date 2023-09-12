@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import pers.blog.domain.ResponseResult;
 import pers.blog.domain.dto.AddUserDto;
+import pers.blog.domain.dto.ChangeUserStatusDto;
 import pers.blog.domain.dto.UpdateUserDto;
 import pers.blog.domain.entity.Role;
 import pers.blog.domain.entity.User;
@@ -227,6 +228,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userRoleService.saveBatch(userRoles);
 
 
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 更新角色状态
+     * @param userStatusDto
+     * @return
+     */
+    @Override
+    public ResponseResult changeUserStatus(ChangeUserStatusDto userStatusDto) {
+        User user = getById(userStatusDto.getUserId());
+        user.setStatus(userStatusDto.getStatus());
+        updateById(user);
         return ResponseResult.okResult();
     }
 
