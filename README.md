@@ -4,14 +4,9 @@
 Springboot,MybatisPlus,SpringSecurity,EasyExcel,Swagger2,Redis...  
   
 ## 项目地址  
-默认账户：zyx默认密码：1234  
-基于Springboot的前后端分离博客   
-项目前台地址：http://8.130.71.116:8093  
-项目后台地址：http://8.130.71.116:8094  
-  
-Swagger接口文档(打开较慢):  
-  http://8.130.71.116:7777/swagger-ui.html  
-  http://8.130.71.116:8989/swagger-ui.html  
+
+阿里云服务器到期，改日上线
+
 
 ## 项目介绍
 一个基于Springboot + Vue的个人博客项目, 使用Docker部署在服务器上  
